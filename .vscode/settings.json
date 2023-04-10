@@ -2,6 +2,7 @@
     "files.associations": {
         "raylib.h": "c",
         "time.h": "c",
-        "startwindow.h": "c"
+        "startwindow.h": "c",
+        "globals.h": "c"
     }
 }

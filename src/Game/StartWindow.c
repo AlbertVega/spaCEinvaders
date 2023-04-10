@@ -4,28 +4,8 @@
 #include <string.h>
 #include <stdio.h>
 #include "raylib.h"
-
-
-/* 
-    DECLARE SOME GLOBAL CONSTANTS AND VARIABLES 
-*/
-#define START_SCREEN_WIDTH 1080
-#define START_SCREEN_HEIGHT 720
-#define TITLE_WIDTH 140
-#define TITLE_HEIGHT 62
-#define OVNI_WIDTH 16
-#define OVNI_HEIGHT 7
-#define SQUID_WIDTH 8
-#define SQUID_HEIGHT 8
-#define CRAB_WIDTH 10
-#define CRAB_HEIGHT 7
-#define OCTOPUS_WIDTH 11
-#define OCTOPUS_HEIGHT 8
-
-Color green = (Color){ 0x15, 0xFF, 0x14, 0xFF};
-Color blue = (Color){ 0x28, 0xFD, 0xE7, 0xFD};
-Color pink = (Color){ 0xC9, 0x0B, 0xD3, 0xD3};
-
+#include "Globals.h"
+#include "GameWindow.h"
 
 /*
     DECLARE THE TEXTURES FOR ALL SPRITES
@@ -86,8 +66,8 @@ int StartWindow()
                 DrawText(text, START_SCREEN_WIDTH/2 - MeasureText(text, 40)/2, START_SCREEN_HEIGHT/3, 40, green);
                 
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                    printf("Mouse clicked over text");
-                    break;
+                    CloseWindow();
+                    GameWindow();
                 }
             } else {
                 DrawText(text, START_SCREEN_WIDTH/2 - MeasureText(text, 40)/2, START_SCREEN_HEIGHT/3, 40, WHITE);
@@ -133,6 +113,10 @@ int StartWindow()
     }
 
     free(text);
+    UnloadTexture(ovni);
+    UnloadTexture(squid);
+    UnloadTexture(crab);
+    UnloadTexture(octopus);
     UnloadTexture(title);
     UnloadFont(font);
 

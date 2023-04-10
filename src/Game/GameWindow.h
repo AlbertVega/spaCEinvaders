@@ -1,6 +1,6 @@
 #ifndef STARTWINDOW_H
 #define STARTWINDOW_H
 
-int Prueba();
+int GameWindow();
 
 #endif
