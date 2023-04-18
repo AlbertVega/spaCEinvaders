@@ -20,7 +20,7 @@
 #define CRAB_HEIGHT 7
 #define OCTOPUS_WIDTH 11
 #define OCTOPUS_HEIGHT 8
-#define BULLET_WIDTH 2
+#define BULLET_WIDTH 6
 #define BULLET_HEIGHT 7
 
 /*

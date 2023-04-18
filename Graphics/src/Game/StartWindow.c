@@ -21,15 +21,19 @@ int StartWindow()
 {
     InitWindow(START_SCREEN_WIDTH, START_SCREEN_HEIGHT, "Space Invaders");
 
+    Image logo = LoadImage("src/assets/images/logo.png");
+    SetWindowIcon(logo);
+
     SetTargetFPS(60);
+
     int framesCounter = 0;
     
-    ovni = LoadTexture("../src/assets/images/ovni.png");
-    squid = LoadTexture("../src/assets/images/calamar.png");
-    crab = LoadTexture("../src/assets/images/cangrejo.png");
-    octopus = LoadTexture("../src/assets/images/pulpo.png");
-    title = LoadTexture("../src/assets/images/titulo.png");
-    font = LoadFont("../src/assets/fonts/space_invaders.ttf");
+    ovni = LoadTexture("src/assets/images/ovni.png");
+    squid = LoadTexture("src/assets/images/calamar.png");
+    crab = LoadTexture("src/assets/images/cangrejo.png");
+    octopus = LoadTexture("src/assets/images/pulpo.png");
+    title = LoadTexture("src/assets/images/titulo.png");
+    font = LoadFont("src/assets/fonts/space_invaders.ttf");
 
     char *text = (char *) malloc(sizeof(char));
 
@@ -119,6 +123,7 @@ int StartWindow()
     UnloadTexture(octopus);
     UnloadTexture(title);
     UnloadFont(font);
+    UnloadImage(logo);
 
     CloseWindow();        
 
