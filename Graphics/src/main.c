@@ -21,7 +21,7 @@ int main() {
     printf("Bienvenido a SpaCEInvaders, ¿Desea ser observador o jugador? (O/J): ");
     fgets(message, 1024, stdin);
 
-    if ((strcmp(message, "J\n") == 0) || (strcmp(message, "j\n") == 0))
+    if (strcmp(message, "J\n") == 0)
     {
         HANDLE hThread1, hThread2;
 
@@ -47,7 +47,7 @@ int main() {
         CloseHandle(hThread1);
         CloseHandle(hThread2);
     }
-    else if ((strcmp(message, "O\n") == 0) || (strcmp(message, "o\n") == 0)) == 0)
+    else if (strcmp(message, "O\n") == 0)
     {
         printf("aun no implementado");
     }

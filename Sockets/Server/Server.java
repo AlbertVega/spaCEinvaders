@@ -12,7 +12,28 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+
 public class Server {
+
+    public static ServerSocket servidor;
+
+    public static void Response(Socket cliente) throws IOException {
+        String respuesta = "Hola, soy el servidor";
+        PrintWriter salida = new PrintWriter(cliente.getOutputStream(), true);
+        //Scanner scanner = new Scanner(System.in);
+        // Crear un objeto JSON para la respuesta
+        JsonObject respuestaJson = new JsonObject();
+        //String respuesta = scanner.nextLine();
+        //ACA ENVIA UN NUEVO .Json y se crea un los elementos 
+        respuestaJson.addProperty("respuesta", respuesta);
+        respuestaJson.addProperty("nombre", servidor.getInetAddress().getHostName());
+        String respuestaJsonString = respuestaJson.toString();
+
+        System.out.println("Respuesta enviada: " + respuestaJsonString);
+
+        // Enviar la respuesta al cliente en formato JSON
+        salida.println(respuestaJsonString);
+    }
 
     public static String reader(BufferedReader reader) throws IOException {
         String line = reader.readLine();
@@ -31,8 +52,9 @@ public class Server {
     }
     
     public static void main(String[] args) throws IOException {
+
         int puerto = 8080;
-        ServerSocket servidor = new ServerSocket(puerto);
+        servidor = new ServerSocket(puerto);
         System.out.println("Servidor iniciado en el puerto " + puerto);
         Gson gson = new Gson();
 
@@ -42,37 +64,33 @@ public class Server {
 
             System.out.println("\n\n\nNUEVO CLIENTE EN PUERTO: " + cliente.getPort() + "\n\n\n");
             
-            Thread t = new Thread(new Runnable() {
+            Thread t = new Thread(new Runnable() { //hilo que se encarga de escuchar al cliente
                 public void run() {
                     try {
-                        BufferedReader entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
-                        PrintWriter salida = new PrintWriter(cliente.getOutputStream(), true);
-                        Scanner scanner = new Scanner(System.in);
-                        while (true) {
-                            String mensaje = reader(entrada); 
-                            System.out.println("Mensaje recibido: " + mensaje);
-                            // Convertir el mensaje recibido en un objeto JSON
-                            //ACA VUELVE A HACER UN .JSON El STRING QUE LLEGO
-                            JsonElement jsonElement = gson.fromJson(mensaje, JsonElement.class);
-                            System.out.println("Mensaje recibido 1: " + jsonElement.toString());
+                        BufferedReader entrada;
+                        try {
+                            while (true) {
+                                entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
+                                String mensaje = reader(entrada); 
+                                System.out.println("Mensaje recibido: " + mensaje);
+                                // Convertir el mensaje recibido en un objeto JSON
+                                //ACA VUELVE A HACER UN .JSON El STRING QUE LLEGO
+                                JsonElement jsonElement = gson.fromJson(mensaje, JsonElement.class);
+                                String respuesta = jsonElement.getAsJsonObject().get("mensaje").getAsString();
+                                //System.out.println("Mensaje recibido 1: " + jsonElement.toString());
 
-                            
-                            // Crear un objeto JSON para la respuesta
-                            JsonObject respuestaJson = new JsonObject();
-                            String respuesta = scanner.nextLine();
-                            //ACA ENVIA UN NUEVO .Json y se crea un los elementos 
-                            respuestaJson.addProperty("respuesta", respuesta);
-                            respuestaJson.addProperty("nombre", servidor.getInetAddress().getHostName());
-                            String respuestaJsonString = respuestaJson.toString();
-
-                            System.out.println("Respuesta enviada: " + respuestaJsonString);
-
-                            // Enviar la respuesta al cliente en formato JSON
-                            salida.println(respuestaJsonString);
-
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                                System.out.println(respuesta);
+                                
+                                if (respuesta.equals("respondame")) {
+                                    System.out.println("\nta bien\n");
+                                    Response(cliente);
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }  
+                              
+                        
                     } finally {
                         try {
                             cliente.close();

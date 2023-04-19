@@ -1,5 +1,6 @@
 #include "client.h"
 #include "../../Graphics/src/Game/GameWindow.h"
+#include <windows.h>
 
 int winsockInit(){
   if (WSAStartup(MAKEWORD(2,2), &wsaData) != 0) {
@@ -35,12 +36,41 @@ int connectServer(){
     }
 }
 
+DWORD WINAPI listener(LPVOID lpParam){
+    while(TRUE){
+        if (recv(sock, server_reply, 300, 0) < 0) {
+            printf("Error: no se pudo recibir la respuesta del servidor\n");
+            return 1;
+        }
+    //ACA EL STRING QUE LLEGA LO VUELVE A CREAR .JSON
+        
+        json2 = cJSON_Parse(server_reply);
+        printf("Respuesta del servidor: %s\n", server_reply);
+        char* json_string2 = cJSON_Print(json2);
+        printf("Respuesta del servidor with parser %s\n", json_string2);
+        
+        if(strcmp(json_string2, "exit") == 0){
+            break;
+        }
+    }
+    return 0;
+}
+
+
 int StartClient() {
 
     winsockInit();
     socketInit();
     serverDirection();
     connectServer();
+    HANDLE Thread1;
+    Thread1 = CreateThread(NULL, 0, listener, NULL, 0, NULL);
+    //Thread2 = CreateThread(NULL, 0, sender, NULL, 0, NULL);
+    if (Thread1 == NULL) {
+        printf("Error al crear el primer hilo\n");
+        return 1;
+    }
+
     while (TRUE)
     {
         // Crear un objeto cJSON con el campo "mensaje" y su valor ingresado por el usuario
@@ -67,11 +97,13 @@ int StartClient() {
         }
         if (strcmp(message, "exit") == 0)
         {
+            WaitForSingleObject(Thread1, INFINITE);            
+            CloseHandle(Thread1);
             break;
         }
         printf("Mensaje enviado\n");
         // Recibir datos del servidor
-        if (recv(sock, server_reply, 300, 0) < 0) {
+        /*if (recv(sock, server_reply, 300, 0) < 0) {
             printf("Error: no se pudo recibir la respuesta del servidor\n");
             return 1;
         }
@@ -80,7 +112,7 @@ int StartClient() {
         json2 = cJSON_Parse(server_reply);
         printf("Respuesta del servidor: %s\n", server_reply);
         char* json_string2 = cJSON_Print(json2);
-        printf("Respuesta del servidor with parser %s\n", json_string2);
+        printf("Respuesta del servidor with parser %s\n", json_string2);*/
     }
     // Cerrar el socket
     closesocket(sock);
