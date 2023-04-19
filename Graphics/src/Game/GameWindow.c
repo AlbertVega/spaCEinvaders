@@ -27,7 +27,7 @@ typedef struct Bullet
     bool active;
 } Bullet;
 
-//int array[10] = {1,2,4,5,6,7,8,9,10};
+int array[10] = {1,2,4,5,6,7,8,9,10};
 
 void SetBullet(Bullet *bullets, int posPlayerX, int posPlayerY){
     for (int i = 0; i < NUM_SHOOTS; i++)
@@ -60,7 +60,7 @@ void UpdateBullets(Bullet *bullets){
     }
 }
 
-/*void UpdateOvnis(char *Instruccion){
+void UpdateOvnis(char *Instruccion){
     if (strcmp(Instruccion, "dispara")) {   
         for (int i=0; i<2; i++){
             if (array[i] != 0){
@@ -71,28 +71,25 @@ void UpdateBullets(Bullet *bullets){
             printf("%d", array[i]);
         }
     }    
-}*/
+}
 
 int GameWindow()
 {
     // initialize the window
     InitWindow(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT, "Space Invaders");
 
-    // set the window to fullscreen
-    SetWindowState(FLAG_FULLSCREEN_MODE);
-
     // set the framerate to 60 frames per second
     SetTargetFPS(60);
 
     // load the textures for all sprites
-    Image logo = LoadImage("src/assets/images/logo.png");
-    player = LoadTexture("src/assets/images/jugadorprov.png");
-    ovni = LoadTexture("src/assets/images/ovniprov.png");
-    squid = LoadTexture("src/assets/images/calamarprov.png");
-    crab = LoadTexture("src/assets/images/cangrejoprov.png");
-    octopus = LoadTexture("src/assets/images/pulpoprov.png");
-    structure = LoadTexture("src/assets/images/estructuraprov.png");
-    bullet = LoadTexture("src/assets/images/balaprov.png");
+    Image logo = LoadImage("Graphics/src/assets/images/logo.png");
+    player = LoadTexture("Graphics/src/assets/images/jugadorprov.png");
+    ovni = LoadTexture("Graphics/src/assets/images/ovniprov.png");
+    squid = LoadTexture("Graphics/src/assets/images/calamarprov.png");
+    crab = LoadTexture("Graphics/src/assets/images/cangrejoprov.png");
+    octopus = LoadTexture("Graphics/src/assets/images/pulpoprov.png");
+    structure = LoadTexture("Graphics/src/assets/images/estructuraprov.png");
+    bullet = LoadTexture("Graphics/src/assets/images/balaprov.png");
 
     // set the window icon
     SetWindowIcon(logo);

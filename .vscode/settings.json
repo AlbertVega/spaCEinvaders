@@ -3,6 +3,8 @@
         "raylib.h": "c",
         "time.h": "c",
         "startwindow.h": "c",
-        "globals.h": "c"
+        "globals.h": "c", 
+        "java.classPath": ["lib/gson-2.10.1.jar"],
+        "cjson.h": "c",
     }
 }

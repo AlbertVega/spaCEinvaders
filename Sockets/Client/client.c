@@ -1,4 +1,5 @@
 #include "client.h"
+#include "../../Graphics/src/Game/GameWindow.h"
 
 int winsockInit(){
   if (WSAStartup(MAKEWORD(2,2), &wsaData) != 0) {
@@ -34,7 +35,7 @@ int connectServer(){
     }
 }
 
-int main() {
+int StartClient() {
 
     winsockInit();
     socketInit();
@@ -49,11 +50,16 @@ int main() {
         json = cJSON_CreateObject();
          //ACA SE AGREGAN LOS CAMPOS JSON
         cJSON_AddStringToObject(json, "mensaje", message);
-        cJSON_AddStringToObject(json, "nombre", "Juan");
         char* json_string = cJSON_Print(json);
         strcat(json_string, "\n");
         printf("Mensaje JSON: %s \n" , json_string);
-        
+        //prueba -------------------------
+        if (strcmp(message, "dispara") == 0)
+        {
+            printf("\n\ndispara");
+            UpdateOvnis("dispara");
+        }
+        //prueba -------------------------
 
         if (send(sock, json_string, strlen(json_string), 0) < 0) {
             printf("Error: no se pudo enviar el mensaje\n");
@@ -71,10 +77,10 @@ int main() {
         }
         //ACA EL STRING QUE LLEGA LO VUELVE A CREAR .JSON
         
-          json2 = cJSON_Parse(server_reply);
-          printf("Respuesta del servidor: %s\n", server_reply);
-          char* json_string2 = cJSON_Print(json2);
-          printf("Respuesta del servidor with parser %s\n", json_string2);
+        json2 = cJSON_Parse(server_reply);
+        printf("Respuesta del servidor: %s\n", server_reply);
+        char* json_string2 = cJSON_Print(json2);
+        printf("Respuesta del servidor with parser %s\n", json_string2);
     }
     // Cerrar el socket
     closesocket(sock);

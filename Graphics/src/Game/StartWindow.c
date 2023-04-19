@@ -28,12 +28,12 @@ int StartWindow()
 
     int framesCounter = 0;
     
-    ovni = LoadTexture("src/assets/images/ovni.png");
-    squid = LoadTexture("src/assets/images/calamar.png");
-    crab = LoadTexture("src/assets/images/cangrejo.png");
-    octopus = LoadTexture("src/assets/images/pulpo.png");
-    title = LoadTexture("src/assets/images/titulo.png");
-    font = LoadFont("src/assets/fonts/space_invaders.ttf");
+    ovni = LoadTexture("Graphics/src/assets/images/ovni.png");
+    squid = LoadTexture("Graphics/src/assets/images/calamar.png");
+    crab = LoadTexture("Graphics/src/assets/images/cangrejo.png");
+    octopus = LoadTexture("Graphics/src/assets/images/pulpo.png");
+    title = LoadTexture("Graphics/src/assets/images/titulo.png");
+    font = LoadFont("Graphics/src/assets/fonts/space_invaders.ttf");
 
     char *text = (char *) malloc(sizeof(char));
 

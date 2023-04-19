@@ -18,6 +18,8 @@
     void serverDirection();
     int connectServer();
     int sendMsg(char *msg);
+
+    int StartClient();
   
 
 
