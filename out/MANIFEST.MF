@@ -1,0 +1,2 @@
+Maifest-Version: 1.0
+Main-Class: Administrator.Main

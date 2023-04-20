@@ -3,21 +3,26 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
-import java.util.List;
 import javax.swing.*;
+import Administrator.Players.Player1;
+import Administrator.Players.Player2;
 
 public class window {
     private static JFrame Frame;
-    private static JPanel MainPanel, MatrixPanel, LeftPanel;
-    private static String Aliens;
+    private static JPanel MainPanel, MatrixPanel;
     private static ArrayList<JCheckBox> CheckBoxes = new ArrayList<>();
+    private Player1 Player1;
+    private Player2 Player2;
 
-    public window(){
+    public window(Player1 player1, Player2 player2){
+        this.Player1 = player1;
+        this.Player2 = player2;
         createWindow();
         createLabel();
         createMatrix();
         createButtons();
-        createTextField();
+        createTextFields();
+        createPlayerFields();
     }
     private static void createWindow(){
         Frame = new JFrame("Server");
@@ -53,7 +58,7 @@ public class window {
         MainPanel.repaint();
     }
 
-    private static void createButtons(){
+    private void createButtons(){
         JButton Send = new JButton("SEND");
         Send.addActionListener(new ActionListener() {
             @Override
@@ -74,14 +79,35 @@ public class window {
         MainPanel.repaint();
     }
 
-    private static void createTextField(){
-        LeftPanel = new JPanel();
-        JTextField SpeedField = new JTextField(3);
-        LeftPanel.add(SpeedField);
-        SpeedField.setBounds(10,100,50,50);
+    private static void createTextFields(){
+        JPanel LeftPanel = new JPanel(new GridLayout(10,1));
+        JTextField AliensSpeed = new JTextField(3);
+        JTextField OvnisSpeed = new JTextField(3);
+        JLabel SpeedLabel = new JLabel("Aliens Speed");
+        JLabel OvnisLabel = new JLabel("Ovnis Speed");        
+        
+        LeftPanel.add(SpeedLabel);
+        LeftPanel.add(AliensSpeed);
+        LeftPanel.add(OvnisLabel);
+        LeftPanel.add(OvnisSpeed);       
         MainPanel.add(LeftPanel, BorderLayout.WEST);
         MainPanel.validate();
         MainPanel.repaint();
-
     }
+
+    private void createPlayerFields(){
+        JPanel RightPanel = new JPanel(new GridLayout(15,1));
+        JLabel Player1Label = new JLabel("Player 1");
+        JLabel Player2Label = new JLabel("Player 2");
+        JLabel Player1Score = new JLabel("Score: " + Player1.getScore());
+        JLabel Player2Score = new JLabel("Score: " + Player2.getScore());
+        RightPanel.add(Player1Label);
+        RightPanel.add(Player1Score);        
+        RightPanel.add(Player2Label);
+        RightPanel.add(Player2Score);
+        MainPanel.add(RightPanel, BorderLayout.EAST);
+        MainPanel.revalidate();
+        MainPanel.repaint();
+    }
+
 }
