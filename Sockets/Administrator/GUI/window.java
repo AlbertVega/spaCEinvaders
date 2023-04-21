@@ -25,6 +25,7 @@ public class window implements ActionListener{
     private JTextField AliensSpeed, OvnisSpeed;
     private String Respuesta;
     private JCheckBox Player1Check, Player2Check;
+    private JLabel Player1Life, Player2Life, Player1Score, Player2Score;
 
     public window(Player1 player1, Player2 player2, AlienFactory alienFactory, Server server){
         this.Player1 = player1;
@@ -100,10 +101,10 @@ public class window implements ActionListener{
         JPanel RightPanel = new JPanel(new GridLayout(15,1));
         JLabel Player1Label = new JLabel("Player 1");
         JLabel Player2Label = new JLabel("Player 2");
-        JLabel Player1Life = new JLabel("Life: " + Player1.getLife());
-        JLabel Player2Life = new JLabel("Life: " + Player2.getLife());
-        JLabel Player1Score = new JLabel("Score: " + Player1.getScore());
-        JLabel Player2Score = new JLabel("Score: " + Player2.getScore());
+        Player1Life = new JLabel("Life: " + Player1.getLife());
+        Player2Life = new JLabel("Life: " + Player2.getLife());
+        Player1Score = new JLabel("Score: " + Player1.getScore());
+        Player2Score = new JLabel("Score: " + Player2.getScore());
         Player1Check = new JCheckBox("Player 1");
         Player2Check = new JCheckBox("Player 2");
         RightPanel.add(Player1Label);
@@ -193,6 +194,15 @@ public class window implements ActionListener{
             Respuesta = JSONBuilder.createAlien(AlienList.get(i).getName(), AlienList.get(i).getXPos(), AlienList.get(i).getYPos());
             Server.response2(Respuesta);
         }
+    }
+
+    public void updatePlayers(){
+        Player1Life.setText("Life: " + Player1.getLife());
+        Player2Life.setText("Life: " + Player2.getLife());
+        Player1Score.setText("Score: " + Player1.getScore());
+        Player2Score.setText("Score: " + Player2.getScore());
+        MainPanel.revalidate();
+        MainPanel.repaint();
     }
 
     @Override

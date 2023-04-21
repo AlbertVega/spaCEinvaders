@@ -6,6 +6,7 @@ import Administrator.Aliens.AlienFactory;
 import Administrator.GUI.window;
 import Administrator.Players.Player1;
 import Administrator.Players.Player2;
+import Server.Functions;
 import Server.Server;
 
 public class Main {
@@ -17,6 +18,8 @@ public class Main {
         Server server = new Server(player1, player2);
         server.StartServer();
         window window = new window(player1, player2, alienFactory, server);
+        Functions functions = new Functions(player1, player2, window);
+        server.setFunctions(functions);
     }
     
 }

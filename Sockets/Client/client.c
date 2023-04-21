@@ -53,22 +53,32 @@ DWORD WINAPI listener(LPVOID lpParam){
     return 0;
 }
 
-int response(char* reply){
+void response(char* reply){
     printf("Respuesta del servidor: %s\n", reply);
+    char *message = strtok(reply, ",");
     json = cJSON_CreateObject();
-    cJSON_AddStringToObject(json, "mensaje", reply);
+    if (strcmp(message, "P1Life" == 0)){
+        cJSON_AddStringToObject(json, "mensaje", message);
+        message = strtok(NULL, ",");
+        cJSON_AddStringToObject(json, "updatePlayer1Life", message);
+    }else if (strcmp(message, "P2Life" == 0)){
+        cJSON_AddStringToObject(json, "mensaje", message);
+        message = strtok(NULL, ",");
+        cJSON_AddStringToObject(json, "updatePlayer2Life", message);
+    }else if (strcmp(message, "P1Score") == 0){
+        cJSON_AddStringToObject(json, "mensaje", message);
+        message = strtok(NULL, ",");
+        cJSON_AddStringToObject(json, "updatePlayer1Score", message);
+    }
     char* json_string = cJSON_Print(json);
     strcat(json_string, "\n");
-    printf("Mensaje JSON xd: %s \n" , json_string);
+    printf("Mensaje JSON: %s \n" , json_string);
         if (send(sock, json_string, strlen(json_string), 0) < 0) {
             printf("Error: no se pudo enviar el mensaje\n");
-            return 1;
         }
         else{
             printf("Mensaje enviado\n");
-            return 0;
         }
-
 }
 
 int StartClient() {
@@ -79,48 +89,19 @@ int StartClient() {
     connectServer();
     HANDLE Thread1;
     Thread1 = CreateThread(NULL, 0, listener, NULL, 0, NULL);
-    //Thread2 = CreateThread(NULL, 0, sender, NULL, 0, NULL);
     if (Thread1 == NULL) {
         printf("Error al crear el primer hilo\n");
         return 1;
     }
-
     while (TRUE)
     {
         // Crear un objeto cJSON con el campo "mensaje" y su valor ingresado por el usuario
         printf("Ingrese el mensaje: ");
         fgets(message, 1024, stdin);
         message[strcspn(message, "\n")] = 0; // Eliminar el salto de línea al final del mensaje
-       /* json = cJSON_CreateObject();
-         //ACA SE AGREGAN LOS CAMPOS JSON
-        cJSON_AddStringToObject(json, "mensaje", message);
-        char* json_string = cJSON_Print(json);
-        strcat(json_string, "\n");
-        printf("Mensaje JSON: %s \n" , json_string);
 
-        if (send(sock, json_string, strlen(json_string), 0) < 0) {
-            printf("Error: no se pudo enviar el mensaje\n");
-            return 1;
-        }
-        if (strcmp(message, "exit") == 0)
-        {
-            WaitForSingleObject(Thread1, INFINITE);            
-            CloseHandle(Thread1);
-            break;
-        }*/
         response(message);
         printf("Mensaje enviado\n");
-        // Recibir datos del servidor
-        /*if (recv(sock, server_reply, 300, 0) < 0) {
-            printf("Error: no se pudo recibir la respuesta del servidor\n");
-            return 1;
-        }
-        //ACA EL STRING QUE LLEGA LO VUELVE A CREAR .JSON
-        
-        json2 = cJSON_Parse(server_reply);
-        printf("Respuesta del servidor: %s\n", server_reply);
-        char* json_string2 = cJSON_Print(json2);
-        printf("Respuesta del servidor with parser %s\n", json_string2);*/
     }
     // Cerrar el socket
     closesocket(sock);

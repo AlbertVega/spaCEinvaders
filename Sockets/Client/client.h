@@ -17,7 +17,7 @@
     int socketInit();
     void serverDirection();
     int connectServer();
-    int response(char* reply);
+    void response(char* reply);
 
     int StartClient();
   

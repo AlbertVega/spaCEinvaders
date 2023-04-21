@@ -21,6 +21,7 @@ public class Server {
     private Player1 Player1;
     private Player2 Player2;
     private Boolean FLAG = false;
+    private Functions Functions;
 
     /**
      * Este metodo se encarga de enviar mensajes al cliente 1.
@@ -92,12 +93,24 @@ public class Server {
             //ACA VUELVE A HACER UN .JSON El STRING QUE LLEGO
             JsonElement jsonElement = gson.fromJson(mensaje, JsonElement.class);
             String respuesta = jsonElement.getAsJsonObject().get("mensaje").getAsString();
-            //System.out.println("Mensaje recibido 1: " + jsonElement.toString());
-            System.out.println(respuesta);            
-            if (respuesta.equals("respondame")) {
-                System.out.println("\nta bien\n");
-                response1("Hola uwu");
+            if (respuesta.equals("P1Life")){
+                Functions.execute("updatePlayer1Life",  Integer.valueOf(jsonElement.getAsJsonObject().get("updatePlayer1Life").getAsString()));             
+                System.out.println("Vida de P1 actualizada");
+
+            }else if (respuesta.equals("P2Life")){
+                Functions.execute("updatePlayer2Life",  Integer.valueOf(jsonElement.getAsJsonObject().get("updatePlayer2Life").getAsString()));             
+                System.out.println("Vida de P2 actualizada");
+
+            }else if (respuesta.equals("P1Score")){
+                Functions.execute("updatePlayer1Score",  Integer.valueOf(jsonElement.getAsJsonObject().get("updatePlayer1Score").getAsString()));             
+                System.out.println("Puntaje de P1 actualizado");
+
+            }else if (respuesta.equals("P2Score")){
+                Functions.execute("updatePlayer2Score",  Integer.valueOf(jsonElement.getAsJsonObject().get("updatePlayer2Score").getAsString()));             
+                System.out.println("Puntaje de P2 actualizado");
             }
+            //System.out.println("Mensaje recibido 1: " + jsonElement.toString());
+            System.out.println(respuesta);         
         }
     }
 
@@ -152,5 +165,9 @@ public class Server {
             }
         });
         thread.start();  
+    }
+
+    public void setFunctions(Functions functions){
+        this.Functions = functions;
     }
 }
