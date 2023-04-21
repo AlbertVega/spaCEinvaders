@@ -16,6 +16,9 @@ Texture2D structure;
 Texture2D bullet;
 Texture2D player;
 
+int score = 0;
+int lives = 3;
+
 typedef struct Bullet
 {
     int posBulletY;
@@ -255,6 +258,15 @@ void CheckAlien(Bullet *bullets, Alien *aliens){
             {
                 if (bullets[j].active == true){
                     if (CheckCollisionRecs(aliens[i].destRecAlien, bullets[j].destRecBullet)){
+                        if (strcmp(aliens[i].type, "squid") == 0){
+                            score += 10;
+                        }
+                        else if (strcmp(aliens[i].type, "crab") == 0){
+                            score += 20;
+                        }
+                        else if (strcmp(aliens[i].type, "octopus") == 0){
+                            score += 40;
+                        }
                         aliens[i].active = false;
                         bullets[j].active = false;
                     }
@@ -262,6 +274,14 @@ void CheckAlien(Bullet *bullets, Alien *aliens){
             }
         }
     }
+}
+
+void showScore(){
+    DrawText(TextFormat("Score: %i", score), 10, 10, 40, WHITE);
+}
+
+void showLives(){
+    DrawText(TextFormat("Lives: %i", lives), GAME_SCREEN_WIDTH-150, 10, 40, WHITE);
 }
 
 int GameWindow()
@@ -295,9 +315,6 @@ int GameWindow()
     int movementX = 10;
     int movementY = 10;
     bool moveDown = false;
-
-    int health = 3;
-
     // declare the array of bullets and initialize them to false
     Bullet bullets[NUM_SHOOTS];
     for (int i = 0; i < NUM_SHOOTS; i++)
@@ -376,6 +393,10 @@ int GameWindow()
             UpdateBunker(bunkers);
             // update the aliens
             UpdateAliens(aliens);
+            // show the score
+            showScore();
+            // show the lives
+            showLives();
 
         EndDrawing();
     }
