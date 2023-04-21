@@ -84,14 +84,10 @@ public class window implements ActionListener{
     private void createTextFields(){
         JPanel LeftPanel = new JPanel(new GridLayout(10,1));
         AliensSpeed = new JTextField(3);
-        OvnisSpeed = new JTextField(3);
-        JLabel SpeedLabel = new JLabel("Aliens Speed");
-        JLabel OvnisLabel = new JLabel("Ovnis Speed");        
+        JLabel SpeedLabel = new JLabel("Aliens Speed");       
         
         LeftPanel.add(SpeedLabel);
-        LeftPanel.add(AliensSpeed);
-        LeftPanel.add(OvnisLabel);
-        LeftPanel.add(OvnisSpeed);       
+        LeftPanel.add(AliensSpeed);       
         MainPanel.add(LeftPanel, BorderLayout.WEST);
         MainPanel.validate();
         MainPanel.repaint();
