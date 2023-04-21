@@ -2,6 +2,9 @@ package Server;
 
 import java.lang.reflect.Method;
 import java.util.Hashtable;
+
+import com.google.gson.JsonElement;
+
 import Administrator.Players.Player1;
 import Administrator.Players.Player2;
 import Administrator.GUI.window;
@@ -32,37 +35,41 @@ public class Functions {
     }
 
     /**
-     * Función que actualiza la vida de los jugadores.
-     * @param Life Vida.
+     * Función que actualiza la vida del jugador 1.
+     * @param JSON JSON con la vida.
      */
-    public void updatePlayer1Life(Integer Life){
+    public void updatePlayer1Life(JsonElement JSON){
+        Integer Life = JSON.getAsJsonObject().get("Life").getAsInt();
         player1.setLife(String.valueOf(Life));
         window.updatePlayers();
     }
 
     /**
-     * Función que actualiza la vida de los jugadores.
-     * @param Life Vida.
+     * Función que actualiza la vida del jugador 2.
+     * @param JSON JSON con la vida.
      */
-    public void updatePlayer2Life(Integer Life){
+    public void updatePlayer2Life(JsonElement JSON){
+        Integer Life = JSON.getAsJsonObject().get("Life").getAsInt();
         player2.setLife(String.valueOf(Life));
         window.updatePlayers();
     }
 
     /**
      * Función que actualiza el puntaje del jugador 1.
-     * @param Score Puntaje.
+     * @param JSON JSON con el puntaje.
      */
-    public void updatePlayer1Score(Integer Score){
+    public void updatePlayer1Score(JsonElement JSON){
+        Integer Score = JSON.getAsJsonObject().get("Score").getAsInt();
         player1.setScore(Score);
         window.updatePlayers();
     }
 
     /**
      * Función que actualiza el puntaje del jugador 2.
-     * @param Score Puntaje.
+     * @param JSON JSON con el puntaje.
      */
-    public void updatePlayer2Score(Integer Score){
+    public void updatePlayer2Score(JsonElement JSON){
+        Integer Score = JSON.getAsJsonObject().get("Score").getAsInt();
         player2.setScore(Score);
         window.updatePlayers();
     }

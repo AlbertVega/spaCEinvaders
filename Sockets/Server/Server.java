@@ -93,7 +93,8 @@ public class Server {
             //ACA VUELVE A HACER UN .JSON El STRING QUE LLEGO
             JsonElement jsonElement = gson.fromJson(mensaje, JsonElement.class);
             String respuesta = jsonElement.getAsJsonObject().get("mensaje").getAsString();
-            if (respuesta.equals("P1Life")){
+            Functions.execute(respuesta, jsonElement);
+            /*if (respuesta.equals("P1Life")){
                 Functions.execute("updatePlayer1Life",  Integer.valueOf(jsonElement.getAsJsonObject().get("updatePlayer1Life").getAsString()));             
                 System.out.println("Vida de P1 actualizada");
 
@@ -108,7 +109,7 @@ public class Server {
             }else if (respuesta.equals("P2Score")){
                 Functions.execute("updatePlayer2Score",  Integer.valueOf(jsonElement.getAsJsonObject().get("updatePlayer2Score").getAsString()));             
                 System.out.println("Puntaje de P2 actualizado");
-            }
+            }*/
             //System.out.println("Mensaje recibido 1: " + jsonElement.toString());
             System.out.println(respuesta);         
         }

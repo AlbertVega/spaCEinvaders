@@ -57,18 +57,22 @@ void response(char* reply){
     printf("Respuesta del servidor: %s\n", reply);
     char *message = strtok(reply, ",");
     json = cJSON_CreateObject();
-    if (strcmp(message, "P1Life" == 0)){
+    if (strcmp(message, "updatePlayer1Life") == 0){
         cJSON_AddStringToObject(json, "mensaje", message);
         message = strtok(NULL, ",");
-        cJSON_AddStringToObject(json, "updatePlayer1Life", message);
-    }else if (strcmp(message, "P2Life" == 0)){
+        cJSON_AddStringToObject(json, "Life", message);
+    }else if (strcmp(message, "updatePlayer2Life") == 0){
         cJSON_AddStringToObject(json, "mensaje", message);
         message = strtok(NULL, ",");
-        cJSON_AddStringToObject(json, "updatePlayer2Life", message);
-    }else if (strcmp(message, "P1Score") == 0){
+        cJSON_AddStringToObject(json, "Life", message);
+    }else if (strcmp(message, "updatePlayer1Score") == 0){
         cJSON_AddStringToObject(json, "mensaje", message);
         message = strtok(NULL, ",");
-        cJSON_AddStringToObject(json, "updatePlayer1Score", message);
+        cJSON_AddStringToObject(json, "Score", message);
+    }else if (strcmp(message, "updatePlayer2Score") == 0){
+        cJSON_AddStringToObject(json, "mensaje", message);
+        message = strtok(NULL, ",");
+        cJSON_AddStringToObject(json, "Score", message);
     }
     char* json_string = cJSON_Print(json);
     strcat(json_string, "\n");
