@@ -45,8 +45,7 @@ DWORD WINAPI listener(LPVOID lpParam){
         json2 = cJSON_Parse(server_reply);
         printf("Respuesta del servidor: %s\n", server_reply);
         char* json_string2 = cJSON_Print(json2);
-        printf("Respuesta del servidor with parser %s\n", json_string2);
-        
+        printf("Respuesta del servidor with parser %s\n", json_string2);        
         if(strcmp(json_string2, "exit") == 0){
             break;
         }

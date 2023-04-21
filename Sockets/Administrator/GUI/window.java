@@ -22,6 +22,9 @@ public class window implements ActionListener{
     private AlienFactory AlienFactory;
     private Server Server;
     private final JSONBuilder JSONBuilder = new JSONBuilder();
+    private JTextField AliensSpeed, OvnisSpeed;
+    private String Respuesta;
+    private JCheckBox Player1Check, Player2Check;
 
     public window(Player1 player1, Player2 player2, AlienFactory alienFactory, Server server){
         this.Player1 = player1;
@@ -77,10 +80,10 @@ public class window implements ActionListener{
         MainPanel.repaint();
     }
 
-    private static void createTextFields(){
+    private void createTextFields(){
         JPanel LeftPanel = new JPanel(new GridLayout(10,1));
-        JTextField AliensSpeed = new JTextField(3);
-        JTextField OvnisSpeed = new JTextField(3);
+        AliensSpeed = new JTextField(3);
+        OvnisSpeed = new JTextField(3);
         JLabel SpeedLabel = new JLabel("Aliens Speed");
         JLabel OvnisLabel = new JLabel("Ovnis Speed");        
         
@@ -101,22 +104,24 @@ public class window implements ActionListener{
         JLabel Player2Life = new JLabel("Life: " + Player2.getLife());
         JLabel Player1Score = new JLabel("Score: " + Player1.getScore());
         JLabel Player2Score = new JLabel("Score: " + Player2.getScore());
+        Player1Check = new JCheckBox("Player 1");
+        Player2Check = new JCheckBox("Player 2");
         RightPanel.add(Player1Label);
         RightPanel.add(Player1Score);
-        RightPanel.add(Player1Life);        
+        RightPanel.add(Player1Life);
+        RightPanel.add(Player1Check);        
         RightPanel.add(Player2Label);
         RightPanel.add(Player2Score);
         RightPanel.add(Player2Life);
+        RightPanel.add(Player2Check);
         MainPanel.add(RightPanel, BorderLayout.EAST);
         MainPanel.revalidate();
         MainPanel.repaint();
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    private ArrayList<Alien> getAliens(){
         ArrayList<Alien> AlienList = new ArrayList<>();
         Integer count = 0;
-
         for (int i=0; i<CheckBoxes.size(); i++){
 
             if (CheckBoxes.get(i).isSelected() && i<11){ 
@@ -153,15 +158,64 @@ public class window implements ActionListener{
                 count++;
             }
         }
-        for (int i=0; i<AlienList.size(); i++){
-            try {
-                String Respuesta = JSONBuilder.createAlien(AlienList.get(i).getName(), AlienList.get(i).getXPos(), AlienList.get(i).getYPos());
-                Server.Response(Respuesta);
+        return AlienList;
+    }
 
-            } catch (IOException ex) {
-                ex.printStackTrace();           
+    private String getSpeed(){        
+        if (AliensSpeed.getText().isEmpty()){
+            return "0";
+        }else if (AliensSpeed.getText().matches("[1-3]")){
+            return AliensSpeed.getText();
+        }else {
+            return "0";
+        }
+    }
+
+    private void sendPlayer1() throws IOException{
+        ArrayList<Alien> AlienList = getAliens();
+        String Speed = getSpeed();
+        Respuesta = JSONBuilder.setSpeed(Speed);
+        Server.response1(Respuesta);
+        System.out.println("Speed: " + Speed);
+        for (int i=0; i<AlienList.size(); i++){
+            Respuesta = JSONBuilder.createAlien(AlienList.get(i).getName(), AlienList.get(i).getXPos(), AlienList.get(i).getYPos());
+            Server.response1(Respuesta);
+        }
+    }
+
+    private void sendPlayer2() throws IOException{
+        ArrayList<Alien> AlienList = getAliens();
+        String Speed = getSpeed();
+        Respuesta = JSONBuilder.setSpeed(Speed);
+        Server.response2(Respuesta);
+        System.out.println("Speed: " + Speed);
+        for (int i=0; i<AlienList.size(); i++){
+            Respuesta = JSONBuilder.createAlien(AlienList.get(i).getName(), AlienList.get(i).getXPos(), AlienList.get(i).getYPos());
+            Server.response2(Respuesta);
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {        
+        if (Player1Check.isSelected()){
+            try{
+                sendPlayer1();
+            }catch (IOException ex){
+                ex.printStackTrace();
             }
-            //enviar Pos, tipo de alien, speed general.
-        }        
+        }else if (Player2Check.isSelected()){
+            try{
+                sendPlayer2();
+            }catch (IOException ex){
+                ex.printStackTrace();
+            }           
+        }else if (Player1Check.isSelected() && Player2Check.isSelected()){
+            try{
+                sendPlayer1();
+                sendPlayer2();
+            }catch (IOException ex){
+                ex.printStackTrace();
+            }
+        }       
     }
 }

@@ -1,10 +1,17 @@
 package Administrator.Aliens;
 
+/**
+ * Clase que se encarga de crear los aliens tipo Cangrejo.
+ */
 public class Cangrejo implements Alien{
     private Integer XPos;
     private Integer YPos;
     private String name;
 
+    /**
+     * Constructor de la clase Cangrejo.
+     * @param name tipo de alien.
+    */
     public Cangrejo(String name) {
         this.name = name;
     }

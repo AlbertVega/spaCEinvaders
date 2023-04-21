@@ -1,10 +1,17 @@
 package Administrator.Aliens;
 
+/**
+ * Clase que se encarga de crear los aliens tipo Calamar.
+ */
 public class Calamar implements Alien{
     private Integer XPos;
     private Integer YPos;
     private String name;
-
+    
+    /**
+     * Constructor de la clase Calamar.
+     * @param name tipo de alien.
+     */
     public Calamar(String name) {
         this.name = name;
     }
