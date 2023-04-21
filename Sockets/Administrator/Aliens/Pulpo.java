@@ -1,10 +1,16 @@
 package Administrator.Aliens;
-
+/**
+ * Clase que se encarga de crear los aliens tipo Pulpo.
+ */
 public class Pulpo implements Alien {
     private Integer XPos;
     private Integer YPos;
     private String name;
 
+    /**
+     * Constructor de la clase Pulpo.
+     * @param name tipo de alien.
+     */
     public Pulpo(String name) {
         this.name = name;
     }
