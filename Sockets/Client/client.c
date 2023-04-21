@@ -1,5 +1,4 @@
 #include "client.h"
-#include "../../Graphics/src/Game/GameWindow.h"
 #include <windows.h>
 
 int winsockInit(){
@@ -9,7 +8,6 @@ int winsockInit(){
     } else {
         return 0;
     }
-
 }
 int socketInit(){
   sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -56,6 +54,23 @@ DWORD WINAPI listener(LPVOID lpParam){
     return 0;
 }
 
+int response(char* reply){
+    printf("Respuesta del servidor: %s\n", reply);
+    json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "mensaje", reply);
+    char* json_string = cJSON_Print(json);
+    strcat(json_string, "\n");
+    printf("Mensaje JSON xd: %s \n" , json_string);
+        if (send(sock, json_string, strlen(json_string), 0) < 0) {
+            printf("Error: no se pudo enviar el mensaje\n");
+            return 1;
+        }
+        else{
+            printf("Mensaje enviado\n");
+            return 0;
+        }
+
+}
 
 int StartClient() {
 
@@ -77,19 +92,12 @@ int StartClient() {
         printf("Ingrese el mensaje: ");
         fgets(message, 1024, stdin);
         message[strcspn(message, "\n")] = 0; // Eliminar el salto de línea al final del mensaje
-        json = cJSON_CreateObject();
+       /* json = cJSON_CreateObject();
          //ACA SE AGREGAN LOS CAMPOS JSON
         cJSON_AddStringToObject(json, "mensaje", message);
         char* json_string = cJSON_Print(json);
         strcat(json_string, "\n");
         printf("Mensaje JSON: %s \n" , json_string);
-        //prueba -------------------------
-        if (strcmp(message, "dispara") == 0)
-        {
-            printf("\n\ndispara");
-            UpdateOvnis("dispara");
-        }
-        //prueba -------------------------
 
         if (send(sock, json_string, strlen(json_string), 0) < 0) {
             printf("Error: no se pudo enviar el mensaje\n");
@@ -100,7 +108,8 @@ int StartClient() {
             WaitForSingleObject(Thread1, INFINITE);            
             CloseHandle(Thread1);
             break;
-        }
+        }*/
+        response(message);
         printf("Mensaje enviado\n");
         // Recibir datos del servidor
         /*if (recv(sock, server_reply, 300, 0) < 0) {

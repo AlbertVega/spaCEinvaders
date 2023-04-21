@@ -21,7 +21,7 @@ int StartWindow()
 {
     InitWindow(START_SCREEN_WIDTH, START_SCREEN_HEIGHT, "Space Invaders");
 
-    Image logo = LoadImage("src/assets/images/logo.png");
+    Image logo = LoadImage("Graphics/src/assets/images/logo.png");
     SetWindowIcon(logo);
 
     SetTargetFPS(60);

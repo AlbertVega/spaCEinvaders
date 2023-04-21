@@ -1,2 +1,2 @@
 default:
-	gcc Graphics/src/*.c Graphics/src/Game/*.c Graphics/src/Game/*.h Sockets/Client/*.c Sockets/Client/*.h -o Game.exe -O2 -Wall -Wno-missing-braces -lws2_32 -lmswsock -I Graphics/include/ -L lib/ -lraylib -lopengl32 -lgdi32 -lwinmm
+	gcc Graphics/src/*.c Graphics/src/Game/*.c Graphics/src/Game/*.h Sockets/Client/*.c Sockets/Client/*.h -o SpaCEinvaders.exe -O2 -Wall -Wno-missing-braces -lws2_32 -lmswsock -I Graphics/include/ -L lib/ -lraylib -lopengl32 -lgdi32 -lwinmm
