@@ -5,7 +5,6 @@
 #include <time.h>
 #include <unistd.h>
 #include "Globals.h"
-
 /*
     DECLARE THE TEXTURES FOR ALL SPRITES
 */
@@ -35,7 +34,7 @@ typedef struct Structure
 
 typedef struct Alien
 {
-    int posAlienX;
+    int movementX;
     int posAlienY;
     Rectangle sourceRecAlien;
     Rectangle destRecAlien;
@@ -155,46 +154,46 @@ void SetAliens(Alien *aliens){
             aliens[i].state = 1;
             aliens[i].type = "squid";
             aliens[i].active = true;
-            aliens[i].posAlienX = i*(GAME_SCREEN_WIDTH / 11) + 25;
+            aliens[i].movementX = i*(GAME_SCREEN_WIDTH / 22) +  260;
             aliens[i].posAlienY = 100;
             aliens[i].sourceRecAlien = (Rectangle){0, 0, SQUID_WIDTH, SQUID_HEIGHT};
-            aliens[i].destRecAlien = (Rectangle){aliens[i].posAlienX, aliens[i].posAlienY, aliens[i].sourceRecAlien.width * 4, aliens[i].sourceRecAlien.height * 4};
+            aliens[i].destRecAlien = (Rectangle){aliens[i].movementX, aliens[i].posAlienY, aliens[i].sourceRecAlien.width * 4, aliens[i].sourceRecAlien.height * 4};
         }
         else if ((i>=11) & (i<22)){
             aliens[i].state = 1;
             aliens[i].type = "crab";
             aliens[i].active = true;
-            aliens[i].posAlienX = (i-11)*(GAME_SCREEN_WIDTH / 11) + 25;
+            aliens[i].movementX = (i-11)*(GAME_SCREEN_WIDTH / 22) +  260;
             aliens[i].posAlienY = 150;
             aliens[i].sourceRecAlien = (Rectangle){0, 0, CRAB_WIDTH, CRAB_HEIGHT};
-            aliens[i].destRecAlien = (Rectangle){aliens[i].posAlienX, aliens[i].posAlienY, aliens[i].sourceRecAlien.width * 4, aliens[i].sourceRecAlien.height * 4};
+            aliens[i].destRecAlien = (Rectangle){aliens[i].movementX, aliens[i].posAlienY, aliens[i].sourceRecAlien.width * 4, aliens[i].sourceRecAlien.height * 4};
         }
         else if ((i>=22) & (i<33)){
             aliens[i].state = 1;
             aliens[i].type = "crab";
             aliens[i].active = true;
-            aliens[i].posAlienX = (i-22)*(GAME_SCREEN_WIDTH / 11) + 25;
+            aliens[i].movementX = (i-22)*(GAME_SCREEN_WIDTH / 22) +  260;
             aliens[i].posAlienY = 200;
             aliens[i].sourceRecAlien = (Rectangle){0, 0, CRAB_WIDTH, CRAB_HEIGHT};
-            aliens[i].destRecAlien = (Rectangle){aliens[i].posAlienX, aliens[i].posAlienY, aliens[i].sourceRecAlien.width * 4, aliens[i].sourceRecAlien.height * 4};
+            aliens[i].destRecAlien = (Rectangle){aliens[i].movementX, aliens[i].posAlienY, aliens[i].sourceRecAlien.width * 4, aliens[i].sourceRecAlien.height * 4};
         }
         else if ((i>=33) & (i<44)){
             aliens[i].state = 1;
             aliens[i].type = "octopus";
             aliens[i].active = true;
-            aliens[i].posAlienX = (i-33)*(GAME_SCREEN_WIDTH / 11) + 25;
+            aliens[i].movementX = (i-33)*(GAME_SCREEN_WIDTH / 22) + 260;
             aliens[i].posAlienY = 250;
             aliens[i].sourceRecAlien = (Rectangle){0, 0, OCTOPUS_WIDTH, OCTOPUS_HEIGHT};
-            aliens[i].destRecAlien = (Rectangle){aliens[i].posAlienX, aliens[i].posAlienY, aliens[i].sourceRecAlien.width * 4, aliens[i].sourceRecAlien.height * 4};
+            aliens[i].destRecAlien = (Rectangle){aliens[i].movementX, aliens[i].posAlienY, aliens[i].sourceRecAlien.width * 4, aliens[i].sourceRecAlien.height * 4};
         }
         else if ((i>=44) & (i<55)){
             aliens[i].state = 1;
             aliens[i].type = "octopus";
             aliens[i].active = true;
-            aliens[i].posAlienX = (i-44)*(GAME_SCREEN_WIDTH / 11) + 25;
+            aliens[i].movementX = (i-44)*(GAME_SCREEN_WIDTH / 22) + 260;
             aliens[i].posAlienY = 300;
             aliens[i].sourceRecAlien = (Rectangle){0, 0, OCTOPUS_WIDTH, OCTOPUS_HEIGHT};
-            aliens[i].destRecAlien = (Rectangle){aliens[i].posAlienX, aliens[i].posAlienY, aliens[i].sourceRecAlien.width * 4, aliens[i].sourceRecAlien.height * 4};
+            aliens[i].destRecAlien = (Rectangle){aliens[i].movementX, aliens[i].posAlienY, aliens[i].sourceRecAlien.width * 4, aliens[i].sourceRecAlien.height * 4};
         }
     }
 }
@@ -202,46 +201,64 @@ void SetAliens(Alien *aliens){
 void UpdateAliens(Alien *aliens){
     for(int i = 0; i < NUM_ALIENS; i++)
     {
-        if (strcmp(aliens[i].type, "squid") == 0){
+        if ((strcmp(aliens[i].type, "squid") == 0) && (aliens[i].active == true)){
             if (aliens[i].state == 1){
                 aliens[i].sourceRecAlien = (Rectangle){0, 0, SQUID_WIDTH, SQUID_HEIGHT};
-                DrawTexturePro(squid, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){0,0}, 0, WHITE);
+                DrawTexturePro(squid, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){SQUID_WIDTH,0}, 0, WHITE);
             }
             else if (aliens[i].state == 2){
                 aliens[i].sourceRecAlien = (Rectangle){8, 0, SQUID_WIDTH, SQUID_HEIGHT};
-                DrawTexturePro(squid, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){0,0}, 0, WHITE);
+                DrawTexturePro(squid, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){SQUID_WIDTH,0}, 0, WHITE);
             }
             else if (aliens[i].state == 3){
                 aliens[i].sourceRecAlien = (Rectangle){16, 0, SQUID_WIDTH, SQUID_HEIGHT};
-                DrawTexturePro(squid, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){0,0}, 0, WHITE);
+                DrawTexturePro(squid, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){SQUID_WIDTH,0}, 0, WHITE);
             }
         }
-        if (strcmp(aliens[i].type, "crab") == 0){
+        if ((strcmp(aliens[i].type, "crab") == 0) && (aliens[i].active == true)){
             if (aliens[i].state == 1){
                 aliens[i].sourceRecAlien = (Rectangle){0, 0, CRAB_WIDTH, CRAB_HEIGHT};
-                DrawTexturePro(crab, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){0,0}, 0, WHITE);
+                DrawTexturePro(crab, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){CRAB_WIDTH,0}, 0, WHITE);
             }
             else if (aliens[i].state == 2){
                 aliens[i].sourceRecAlien = (Rectangle){10, 0, CRAB_WIDTH, CRAB_HEIGHT};
-                DrawTexturePro(crab, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){0,0}, 0, WHITE);
+                DrawTexturePro(crab, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){CRAB_WIDTH,0}, 0, WHITE);
             }
             else if (aliens[i].state == 3){
                 aliens[i].sourceRecAlien = (Rectangle){20, 0, CRAB_WIDTH, CRAB_HEIGHT};
-                DrawTexturePro(crab, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){0,0}, 0, WHITE);
+                DrawTexturePro(crab, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){CRAB_WIDTH,0}, 0, WHITE);
             }
         }
-        if (strcmp(aliens[i].type, "octopus") == 0){
+        if ((strcmp(aliens[i].type, "octopus") == 0) && (aliens[i].active == true)){
             if (aliens[i].state == 1){
                 aliens[i].sourceRecAlien = (Rectangle){0, 0, OCTOPUS_WIDTH, OCTOPUS_HEIGHT};
-                DrawTexturePro(octopus, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){0,0}, 0, WHITE);
+                DrawTexturePro(octopus, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){OCTOPUS_WIDTH,0}, 0, WHITE);
             }
             else if (aliens[i].state == 2){
                 aliens[i].sourceRecAlien = (Rectangle){11, 0, OCTOPUS_WIDTH, OCTOPUS_HEIGHT};
-                DrawTexturePro(octopus, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){0,0}, 0, WHITE);
+                DrawTexturePro(octopus, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){OCTOPUS_WIDTH,0}, 0, WHITE);
             }
             else if (aliens[i].state == 3){
                 aliens[i].sourceRecAlien = (Rectangle){22, 0, OCTOPUS_WIDTH, OCTOPUS_HEIGHT};
-                DrawTexturePro(octopus, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){0,0}, 0, WHITE);
+                DrawTexturePro(octopus, aliens[i].sourceRecAlien, aliens[i].destRecAlien, (Vector2){OCTOPUS_WIDTH,0}, 0, WHITE);
+            }
+        }
+    }
+}
+
+// method to check if the alien is hit by a bullet
+void CheckAlien(Bullet *bullets, Alien *aliens){
+    for(int i = 0; i < NUM_ALIENS; i++)
+    {
+        if (aliens[i].active == true){
+            for(int j = 0; j < NUM_SHOOTS; j++)
+            {
+                if (bullets[j].active == true){
+                    if (CheckCollisionRecs(aliens[i].destRecAlien, bullets[j].destRecBullet)){
+                        aliens[i].active = false;
+                        bullets[j].active = false;
+                    }
+                }
             }
         }
     }
@@ -275,6 +292,12 @@ int GameWindow()
     int posPlayerX = GAME_SCREEN_WIDTH/2;
     int posPlayerY = GAME_SCREEN_HEIGHT - 50;
 
+    int movementX = 10;
+    int movementY = 10;
+    bool moveDown = false;
+
+    int health = 3;
+
     // declare the array of bullets and initialize them to false
     Bullet bullets[NUM_SHOOTS];
     for (int i = 0; i < NUM_SHOOTS; i++)
@@ -287,9 +310,40 @@ int GameWindow()
     Alien aliens[NUM_ALIENS];
     SetAliens(aliens);
 
+    double tiempo_anterior = GetTime();
 
     while (!WindowShouldClose())
     {   
+        // Calcular el tiempo transcurrido desde el último frame
+        double tiempo_actual = GetTime();
+        double tiempo_transcurrido = tiempo_actual - tiempo_anterior;
+
+        // Si ha pasado un segundo, aumentar el contador
+        if (tiempo_transcurrido >= 0.50) {
+            for (int i=0; i<NUM_ALIENS; i++) {
+                aliens[i].destRecAlien.x += movementX;
+            }
+
+            for (int i=0; i<NUM_ALIENS; i++) {
+                if (aliens[i].destRecAlien.x >= GAME_SCREEN_WIDTH - 50) {
+                    movementX = -10;
+                    moveDown = true;
+                }
+                else if (aliens[i].destRecAlien.x <= 50) {
+                    movementX = 10;
+                    moveDown = true;
+                }
+            }
+            if (moveDown) {
+                for (int i=0; i<NUM_ALIENS; i++) {
+                    aliens[i].destRecAlien.y += movementY; 
+                    moveDown = false;
+                }
+            }
+            
+            tiempo_anterior = tiempo_actual;
+        }
+
         // check if the player is moving to the left and if it's not going out of the screen
         if (posPlayerX < 0 + PLAYER_WIDTH * 4) posPlayerX = 0 + PLAYER_WIDTH * 4;
         // check if the player is moving to the right and if it's not going out of the screen
@@ -316,9 +370,11 @@ int GameWindow()
             UpdateBullets(bullets);
             // check if the bunkers are being hit by the bullets
             CheckBunker(bullets, bunkers);
+            // check if the aliens are being hit by the bullets
+            CheckAlien(bullets, aliens);
             // update the bunkers
             UpdateBunker(bunkers);
-
+            // update the aliens
             UpdateAliens(aliens);
 
         EndDrawing();
